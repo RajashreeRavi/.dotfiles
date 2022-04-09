@@ -57,16 +57,16 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\W\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \W\a\]$PS1"
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
     ;;
 *)
     ;;
@@ -117,22 +117,43 @@ if ! shopt -oq posix; then
 fi
 
 export PATH=$PATH:~/bin
-alias vims="vim -S Session.vim"
 alias goharvest="cd ~/git/harvest"
-alias cleardocker='docker kill $(docker ps -q); docker rm $(docker ps -a -q)'
+alias cleardocker='docker kill $(docker ps -q); docker stop $(docker ps -aq); docker rm $(docker ps -a -q)'
 alias purgedocker='docker rmi $(docker images | grep "^<none>" | awk "{print $3}")'
 alias rsync2="rsync -ah --progress --append-verify"
-alias gtop="watch -n 1 nvidia-smi"
-alias streamjetson='gst-launch-1.0 -v udpsrc port=1234  caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" !  rtph264depay ! decodebin ! videoconvert ! autovideosink'
 
-function gitsed () {
-    originalText=$1
-    newText=$2
-    if [ $3 == "f" ] ; then
-        git grep -l "$originalText" | xargs sed -i "s/$originalText/$newText/g"
-    else
-        diff --color --context=1 \
-            <(git grep -l "$originalText" | xargs cat) \
-            <(git grep -l "$originalText" | xargs sed "s/$originalText/$newText/g")
-    fi
+# Set rosmaster to the ip and port of a different computer
+alias setrosmaster=setRosMaster
+
+setRosMaster ()
+{
+    export ROS_MASTER_URI=http://"$1":"$2"
+    export ROS_IP="$1"
 }
+
+alias cherrypick=cherrypick
+
+cherrypick ()
+{
+    git cherry-pick "$1" --no-commit --no-ff
+}
+
+alias rvizmake=rvizmake
+rvizmake ()
+{
+        cd ${HOME}/git/harvest
+        DEV_NAME=rajLocalOffice ./rvizmake.sh "$@"
+}
+
+source /opt/ros/noetic/setup.bash
+source ${HOME}/catkin_ws/devel/setup.bash
+
+goharvest
+
+# Change ROS_IP stuff below if you want to run locally
+export ROBOT_ROS_IP=127.0.0.1
+export ROS_IP=${ROBOT_ROS_IP}
+export ROS_MASTER_URI=http://${ROS_IP}:11311
+
+# Disable Ctrl+s terminal freeze
+stty -ixon
