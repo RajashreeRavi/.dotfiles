@@ -44,5 +44,7 @@ cp ./git/.gitconfig ~/
 cp ./git/.githelpers ~/
 cp ./bash/.bashrc ~/
 
+sudo dpkg --install ros-noetic-rviz_1.14.11-0focal_amd64.deb
+
 echo ""
 echo "You must restart the machine now (nvidia driver, docker permissions)."
