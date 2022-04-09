@@ -157,3 +157,4 @@ export ROS_MASTER_URI=http://${ROS_IP}:11311
 
 # Disable Ctrl+s terminal freeze
 stty -ixon
+export PATH=/usr/lib/ccache:$PATH
