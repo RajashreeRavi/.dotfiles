@@ -10,3 +10,4 @@ Steps to setup dev machine:
 - Clone the .dotfiles repository
 - Run the initialsetup.sh file
 - Install ROS http://wiki.ros.org/noetic/Installation/Ubuntu
+- https://extensions.gnome.org/extension/1723/wintile-windows-10-window-tiling-for-gnome/ Install WinTiles for splitting screens 
