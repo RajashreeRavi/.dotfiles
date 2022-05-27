@@ -11,3 +11,4 @@ Steps to setup dev machine:
 - Run the initialsetup.sh file
 - Install ROS http://wiki.ros.org/noetic/Installation/Ubuntu
 - https://extensions.gnome.org/extension/1723/wintile-windows-10-window-tiling-for-gnome/ Install WinTiles for splitting screens 
+- Run "git config --global push.default current" to enable git push -u capability without having to do set-upstream
