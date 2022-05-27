@@ -43,17 +43,9 @@
     la = !git l --all
     fix = "!f() { vim `git diff --name-only`; }; f"
 
-[merge]
-	tool = p4merge
 [credential]
 [http]
     sslverify = false
 [user]
-	email = pvphan90@gmail.com
-	name = Vinh Phan
-[core]
-	editor = vim
-[mergetool "p4merge"]
-	path = /usr/local/bin/p4merge
-[mergetool]
-	prompt = false
+	email = rajashreeravi95@gmail.com
+	name = Rajashree Ravi
