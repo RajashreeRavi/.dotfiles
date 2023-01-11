@@ -1,0 +1,11 @@
+{
+	"font_size": 12,
+	"theme": "Default.sublime-theme",
+	"color_scheme": "Monokai.sublime-color-scheme",
+	"rulers": [80, 100],
+	"trim_trailing_white_space_on_save": "all",
+	"trim_only_modified_white_space": false,
+	"ensure_newline_at_eof_on_save": true,
+	"save_on_focus_lost": true,
+	"folder_exclude_patterns": [".svn", ".git", ".hg", "CVS", ".Trash", ".Trash-*", ".pycache"],
+}
