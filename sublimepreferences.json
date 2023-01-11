@@ -7,5 +7,5 @@
 	"trim_only_modified_white_space": false,
 	"ensure_newline_at_eof_on_save": true,
 	"save_on_focus_lost": true,
-	"folder_exclude_patterns": [".svn", ".git", ".hg", "CVS", ".Trash", ".Trash-*", ".pycache"],
+	"folder_exclude_patterns": [".svn", ".git", ".hg", "CVS", ".Trash", ".Trash-*", "__pycache__"],
 }
