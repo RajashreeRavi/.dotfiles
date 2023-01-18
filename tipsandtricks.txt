@@ -1,0 +1,71 @@
+https://stackoverflow.com/questions/6339944/home-and-end-keys-problem-in-vim change vim end key to go to end of line
+
+docker kill all docker kill $(docker ps -q)
+docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
+
+rviz setup
+on remote machine
+edit /etc/hosts to have your ip and hostname
+ set ros ip to the vpn ip ex: 172.16.1.202:11315 in the docker-compose.yml
+check with telnet if you are able to ping this port after starting ros core and see if rostopics are visible and streaming locally by telnet 172.16.1.202 11315. port and ip should be visible in docker logs or the text that comes when you start the roscore
+on local machine
+edit /etc/hosts to have ip and hostname, ex: 172.16.1.202 deimos-engine
+export ROS_MASTER_URI=http://172.16.1.202:11315 on terminal
+export ROS_IP=172.16.1.202 on terminal
+these need to be run in the exact order
+do rostopic echo or telnet to confirm data is streaming
+open rviz and visualise data
+
+git reset --soft HEAD~1 undo last commit before pushing from local
+
+ssh add computer : to ~/.ssh/config add
+Host himalia
+    HostName 192.168.20.194
+    Port 22
+    User robot
+ssh no password login: ssh-copy-id robot@192.168.20.194
+
+denso password teach pendant [Operator] 5593551
+[Programmer] 5596045
+[Maintainer] 5596060         
+
+
+docker install and login:
+curl -sSL https://get.docker.com | sh
+docker login --username lewisanderson --password TrapticDocker813
+docker pull traptic/robot-harvest:master-RC
+
+sudo fdisk -l #found backup drive at /dev/sdb1
+sudo mkdir /mnt/backupdrive
+sudo mount /dev/sdb1 /mnt/backupdrive
+sudo mkdir -p /mnt/backupdrive/FieldTests/FieldTest_202105DD_deimosX/harvestlog/
+sudo rsync -ah --progress --append-verify var/lib/docker/volumes/harvest_harvest-logX/data/ /mnt/backupdrive/FieldTests/FieldTest_202105DD_deimosX/harvestlog/
+
+Jupyter setup:
+Start a bash shell in remote computer eg:himalia using make shell
+Install jupyter notebook in it (till we install it permanently in our image) using pip install jupyter
+Start a jupyter notebook inside the shell using jupyter notebook --no-browser --port=8080 --allow-root It should print to terminal something like the image posted
+In your local machine tunnel the port by using ssh -NL 8080:localhost:8080 robot@192.168.20.194 . If the command seems to hang and not give any output then it means its working. If it returns immediately or says "channel 2: open failed: connect failed: Connection refused" something might be problematic
+In your local machine, open a browser and open the link posted when you opened the notebook. It should open up a folder directory of the place where you started the notebook. Open a new python3 notebook and test happily ever after
+
+Python stack trace
+Option 1:
+https://www.podoliaka.org/2016/04/10/debugging-cpython-gdb/
+apt-get update && apt-get install gdb python3-dbg -y
+gdb python3 --args python3 <YOURPROGRAMARGS>
+(It should be possible to connect gdb to an already running process as well)
+run
+ctrl-c
+py-bt
+(optional, for super verbose info: bt)
+(for bt of all threads: thread apply all py-bt)
+Option 2:
+https://stackoverflow.com/questions/132058/showing-the-stack-trace-from-a-running-python-application
+https://pyrasite.readthedocs.io/en/latest/
+sudo pip install pyrasite
+echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+sudo pyrasite <PID_OF_PROCESS_EG_12626> experiments/dump_stacks.py # dumps stacks to stdout/stderr of the python program
+
+Segfault debuggin 
+ https://jvns.ca/blog/2018/04/28/debugging-a-segfault-on-linux/
